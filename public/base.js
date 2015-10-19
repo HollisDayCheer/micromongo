@@ -16,34 +16,21 @@ console.log("Sanity Check: JS is working!");
       })
       this.items.pop();
       this.numbPosts--;
-      this.updateEntries();
    },
    this.addItem =function(words){ //adds an item to the EntryList object
+    console.log(words);
       $.ajax({
         url: "/api/posts",
         type: "POST",
-        data: {content: words},
+        data: "{content: words}",
         success: function(data){
-          console.log(data);
-        }
+          console.log("addItem connects to server")
+                }
       });
-      $("#list-storer").append("<li class= 'list-group-item "+this.items[i].position+"'>"+ this.items[i].text + "<button class = '"+this.items[i].position+"'>X</button></li>");
-
       //$("#list-storer").append("<li class= 'list-group-item "+listEntry.position+"'>"+ listEntry.text + "<button class = '"+listEntry.position+"'>X</button></br></li>");
      // $("#words").val(""); //clears the input
       this.numbPosts++;
   }
-  this.updateCount = function(){
-    $("h3").html("You have made " + this.numbPosts + " posts.");
-  }
-  this.updateEntries = function(){ //created this because was getting issues with html being off from the position of the actual html id
-    //this entire thing ended up being unnecessary because I couldn't get my button clicks working :(
-    $("#list-storer").empty();
-    for(var i = 0; i<this.items.length;i++){
-      $("#list-storer").append("<li class= 'list-group-item "+this.items[i].position+"'>"+ this.items[i].text + "<button class = '"+this.items[i].position+"'>X</button></li>");
-    }$("li."+i).append("hahahaha");
-  }
-
 }
 
 
@@ -65,11 +52,14 @@ console.log("Sanity Check: JS is working!");
 
 $(document).ready(function(){
   // code in here
-  $("form").on("submit", function(e){ //on submission, adds the text to an entry and adds the entry to an Entrylist
+  $("form").on("submit", function(e){
+      console.log("form submit works")
+       //on submission, adds the text to an entry and adds the entry to an Entrylist
       e.preventDefault();
       if($("#words").val()){
         var words = $("#words").val();
         ourList.addItem(words);
+        $("#words").val("");
       }
   });
 

@@ -12,7 +12,6 @@ app.get("/", function(req,res){
 	db.Post.find({}, function(err, posts){
 		console.log(posts);
 		res.render("index", {posts:posts});
-
 	});
 });
 
@@ -23,8 +22,9 @@ app.post("/api/posts", function(req, res){
 		if(err){
 			console.log("PANIC");
 		}
-	})
-	res.sendStatus(200);
+		res.json(post);
+
+	});
 });
 
 app.delete("/api/posts/:id", function(req, res){
