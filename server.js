@@ -6,7 +6,7 @@ var bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.set('view engine', 'ejs');
 
-app.use("/static", express.static('public'));
+app.use(express.static('public'));
 
 app.get("/", function(req,res){
 	res.render("index");
