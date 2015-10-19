@@ -19,20 +19,24 @@ console.log("Sanity Check: JS is working!");
    },
    this.addItem =function(words){ //adds an item to the EntryList object
     console.log(words);
+    var objectToSend={
+      content: words
+    }
       $.ajax({
         url: "/api/posts",
-        type: "POST",
-        data: "{content: words}",
+        method: "POST",
+        data: objectToSend,
         success: function(data){
-          console.log("addItem connects to server")
-                }
-      });
+          console.log("addItem connects to server");
+          console.log(data);
+          $("ul").append("<li class= 'list-group-item " + data._id + "'>" + data.content + "<button class = '"+data._id+"'>X</button></br></li>");
+      }
       //$("#list-storer").append("<li class= 'list-group-item "+listEntry.position+"'>"+ listEntry.text + "<button class = '"+listEntry.position+"'>X</button></br></li>");
      // $("#words").val(""); //clears the input
-      this.numbPosts++;
-  }
+  });
 }
 
+}
 
 
   var entry = function(words){ //entry object, once held html and position, but that was moved to EntryList. 
@@ -43,6 +47,7 @@ console.log("Sanity Check: JS is working!");
   $(document).on("click", "button", function(e){
     console.log("click works on button");
     var myClass = $(this).attr('class');
+    console.log("my class is " + myClass);
     var classString = "." + myClass;
     $(classString).remove();
     console.log(myClass);
