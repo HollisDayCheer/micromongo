@@ -9,22 +9,29 @@ console.log("Sanity Check: JS is working!");
         $("#list-storer").clear();
     },
     this.removeItem = function(index){  //removes an item based on position + resests position
-      for(var i = index; i<this.items.length-1;i++){
-         this.items[i]=this.items[i+1];
-         this.items[i].position=i;
-      }
+      $.ajax({
+        url: "/api/posts/" +index ,
+        type: "DELETE",
+        success: console.log("success!")
+      })
       this.items.pop();
       this.numbPosts--;
       this.updateEntries();
    },
-   this.addItem =function(listEntry){ //adds an item to the EntryList object
-      listEntry.position = this.items.length;
-      this.items.push(listEntry);
-      $("#list-storer").append("<li class= 'list-group-item "+listEntry.position+"'>"+ listEntry.text + "<button class = '"+listEntry.position+"'>X</button></br></li>");
-      $("#words").val(""); //clears the input
-      entryString = "entry" + this.items.length;
+   this.addItem =function(words){ //adds an item to the EntryList object
+      $.ajax({
+        url: "/api/posts",
+        type: "POST",
+        data: {content: words},
+        success: function(data){
+          console.log(data);
+        }
+      });
+      $("#list-storer").append("<li class= 'list-group-item "+this.items[i].position+"'>"+ this.items[i].text + "<button class = '"+this.items[i].position+"'>X</button></li>");
+
+      //$("#list-storer").append("<li class= 'list-group-item "+listEntry.position+"'>"+ listEntry.text + "<button class = '"+listEntry.position+"'>X</button></br></li>");
+     // $("#words").val(""); //clears the input
       this.numbPosts++;
-      this.updateCount();
   }
   this.updateCount = function(){
     $("h3").html("You have made " + this.numbPosts + " posts.");
@@ -37,12 +44,6 @@ console.log("Sanity Check: JS is working!");
     }$("li."+i).append("hahahaha");
   }
 
-  this.updateHTML = function(){
-    $("#list-storer").empty();
-    for(var i = 0; i<this.items.length;i++){
-      $("#list-storer").append(this.items[i].html);
-    }
-  }
 }
 
 
@@ -68,8 +69,7 @@ $(document).ready(function(){
       e.preventDefault();
       if($("#words").val()){
         var words = $("#words").val();
-        var newEntry = new entry(words); //numbPosts is outside variable that stores number of posts
-        ourList.addItem(newEntry);
+        ourList.addItem(words);
       }
   });
 

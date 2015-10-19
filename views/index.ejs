@@ -29,6 +29,9 @@
           </form>
           <div> 
               <ul id = "list-storer" class = "list-group">
+                <% for(var i = 0; i < posts.length; i++){%>
+                  <li class= 'list-group-item <%=posts[i]._id%>'><%=posts[i].content%><button class = '<%=posts[i]._id%>'>X</button></br></li>
+                  <%}%>
               </ul>
           </div>
         </div>
